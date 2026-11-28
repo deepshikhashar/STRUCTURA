@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STRUCTURA — Construction Project Management Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+
+    <div id="sidebar-backdrop" class="sidebar-backdrop" aria-hidden="true"></div>
+
+    <aside id="sidebar" class="sidebar" aria-label="Primary navigation">
+      <div class="brand-block">
+        <div class="brand-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 21h18" />
+            <path d="M5 21V7l8-4v18" />
+            <path d="M19 21V11l-6-4" />
+            <path d="M9 9v.01" />
+            <path d="M9 12v.01" />
+            <path d="M9 15v.01" />
+            <path d="M9 18v.01" />
+          </svg>
+        </div>
+        <div>
+          <div class="brand-title">STRUCTURA</div>
+          <div class="brand-sub">Field Ops Portal</div>
+        </div>
+      </div>
+
+      <div class="nav-section-label">Operations</div>
+      <ul class="nav-list" role="tablist">
+        <li>
+          <button type="button" class="nav-item active" data-view="dashboard">
+            <span class="nav-item-left">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="9" rx="1" />
+                <rect x="14" y="3" width="7" height="5" rx="1" />
+                <rect x="14" y="12" width="7" height="9" rx="1" />
+                <rect x="3" y="16" width="7" height="5" rx="1" />
+              </svg>
+              <span>Dashboard</span>
+            </span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="nav-item" data-view="projects">
+            <span class="nav-item-left">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 20h20" />
+                <path d="M5 20V8l7-5 7 5v12" />
+                <path d="M9 20v-5h6v5" />
+              </svg>
+              <span>Projects &amp; Phases</span>
+            </span>
+            <span id="badge-projects-count" class="nav-badge">0</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="nav-item" data-view="tasks">
+            <span class="nav-item-left">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 11l3 3L22 4" />
+                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+              </svg>
+              <span>Tasks &amp; Deadlines</span>
+            </span>
+            <span id="badge-tasks-count" class="nav-badge">0</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="nav-item" data-view="delays">
+            <span class="nav-item-left">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                <line x1="12" y1="9" x2="12" y2="13" />
+                <line x1="12" y1="17" x2="12.01" y2="17" />
+              </svg>
+              <span>Delay Radar</span>
+            </span>
+            <span id="badge-delay-count" class="nav-badge nav-badge-alert">0</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="nav-item" data-view="workers">
+            <span class="nav-item-left">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+              <span>Workers &amp; Teams</span>
+            </span>
+            <span id="badge-workers-count" class="nav-badge">0</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="nav-item" data-view="materials">
+            <span class="nav-item-left">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                <line x1="12" y1="22.08" x2="12" y2="12" />
+              </svg>
+              <span>Materials &amp; BOM</span>
+            </span>
+            <span id="badge-materials-count" class="nav-badge">0</span>
+          </button>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="eval-card">
+          <div class="eval-card-head">
+            <span class="eval-dot"></span>
+            <span>Auto-Delay Engine Live</span>
+          </div>
+          <p class="eval-card-desc">
+            Monitors overdue tasks, slipped phases &amp; late material deliveries against the reference date.
+          </p>
+          <button type="button" id="btn-reset-demo" class="btn btn-sidebar">
+            Reset Demo Dataset
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main-area">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button type="button" id="btn-mobile-menu" class="mobile-menu-btn" aria-label="Toggle navigation menu">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+          </button>
+          <div>
+            <h1 id="page-title" class="page-title">Project Operations Dashboard</h1>
+            <p id="page-subtitle" class="page-subtitle">Real-time site progress, workforce allocation, and automated delay tracking</p>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <div class="search-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            <input
+              type="search"
+              id="global-search"
+              class="search-input"
+              placeholder="Search portal..."
+              aria-label="Search portal records"
+            />
+          </div>
+
+          <div class="date-sim-box" title="Simulate schedule evaluation date to test automated delay detection">
+            <span class="date-sim-label">Ref</span>
+            <input type="date" id="ref-date-input" class="date-sim-input" aria-label="Reference evaluation date" />
+            <div class="date-sim-pills">
+              <button type="button" class="btn btn-ghost btn-xs" data-shift-days="-7" title="Shift reference date back 7 days">-7d</button>
+              <button type="button" id="btn-today-date" class="btn btn-ghost btn-xs" title="Snap back to today">Today</button>
+              <button type="button" class="btn btn-ghost btn-xs" data-shift-days="15" title="Simulate 15 days ahead">+15d</button>
+            </div>
+          </div>
+
+          <button type="button" id="btn-quick-task" class="btn btn-secondary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            <span>Assign Task</span>
+          </button>
+          <button type="button" id="btn-quick-project" class="btn btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            <span>New Project</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="view-container">
+
+        <section id="view-dashboard" class="view-section active">
+
+          <div id="dashboard-hero-deck" class="hero-deck"></div>
+
+          <div id="dashboard-kpis" class="kpi-grid"></div>
+
+          <div class="section-header-row">
+            <div>
+              <h2 class="section-heading">Active Sites &amp; Milestone Pipelines</h2>
+              <p class="section-sub">Visual stage progress across Foundation, Structure, MEP &amp; Finishing</p>
+            </div>
+            <button type="button" class="btn btn-secondary btn-sm" data-goto-view="projects">Explore All Projects &rarr;</button>
+          </div>
+          <div id="dashboard-project-grid" class="dash-projects-grid"></div>
+
+          <div class="dashboard-bottom-deck">
+            <div class="panel">
+              <div class="panel-header panel-header-wrap">
+                <div>
+                  <h2 class="panel-title">Interactive Delay Triage</h2>
+                  <p class="panel-subtitle">Auto-flagged delays with visual overdue severity &amp; 1-click actions</p>
+                </div>
+                <div class="triage-tabs" id="delay-triage-tabs">
+                  <button type="button" class="triage-tab active" data-triage-tab="ALL">All Alerts</button>
+                  <button type="button" class="triage-tab" data-triage-tab="TASKS">Tasks</button>
+                  <button type="button" class="triage-tab" data-triage-tab="MATERIALS">Materials</button>
+                </div>
+              </div>
+              <div class="panel-body">
+                <div id="dashboard-delay-triage" class="triage-list"></div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-header">
+                <div>
+                  <h2 class="panel-title">Workforce &amp; Material Telemetry</h2>
+                  <p class="panel-subtitle">Crew headcount by trade specialty &amp; live BOM readiness</p>
+                </div>
+                <button type="button" class="btn btn-secondary btn-sm" data-goto-view="workers">Crew Roster</button>
+              </div>
+              <div class="panel-body" id="dashboard-visual-charts"></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="view-projects" class="view-section">
+          <div id="projects-telemetry-strip" class="kpi-grid"></div>
+          <div class="filter-bar">
+            <div class="filter-pills" id="project-filter-pills">
+              <button type="button" class="filter-pill active" data-proj-filter="ALL">All Projects</button>
+              <button type="button" class="filter-pill" data-proj-filter="Active">Active (On Track)</button>
+              <button type="button" class="filter-pill pill-alert" data-proj-filter="Delayed">Delayed</button>
+              <button type="button" class="filter-pill" data-proj-filter="Completed">Completed</button>
+            </div>
+            <div class="filter-controls">
+              <button type="button" id="btn-create-project-view" class="btn btn-primary btn-sm">+ Create New Project</button>
+            </div>
+          </div>
+          <div id="projects-grid" class="projects-grid"></div>
+        </section>
+
+        <section id="view-tasks" class="view-section">
+          <div id="tasks-telemetry-strip" class="kpi-grid"></div>
+          <div class="filter-bar">
+            <div class="filter-pills" id="task-status-pills">
+              <button type="button" class="filter-pill active" data-task-filter="ALL">All Tasks</button>
+              <button type="button" class="filter-pill pill-alert" data-task-filter="Delayed">Delayed Only</button>
+              <button type="button" class="filter-pill" data-task-filter="In Progress">In Progress</button>
+              <button type="button" class="filter-pill" data-task-filter="Pending">Pending</button>
+              <button type="button" class="filter-pill" data-task-filter="Completed">Completed</button>
+            </div>
+            <div class="filter-controls">
+              <div class="segmented-switch" id="task-view-switcher" role="group" aria-label="Task layout mode">
+                <button type="button" class="segmented-btn active" data-task-view-mode="kanban">Kanban Board</button>
+                <button type="button" class="segmented-btn" data-task-view-mode="table">Table View</button>
+              </div>
+              <select id="task-project-filter" class="select-input" aria-label="Filter tasks by project"></select>
+              <button type="button" id="btn-create-task-view" class="btn btn-primary btn-sm">+ Assign Task</button>
+            </div>
+          </div>
+
+          <div id="tasks-kanban-board" class="kanban-board"></div>
+
+          <div id="tasks-table-panel" class="panel" style="display: none;">
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>ID &amp; Task</th>
+                    <th>Project &amp; Work Phase</th>
+                    <th>Assigned Crew</th>
+                    <th>Deadline</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="tasks-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section id="view-delays" class="view-section">
+          <div id="delays-hero-deck" class="delays-hero-deck"></div>
+
+          <div class="filter-bar">
+            <div class="filter-pills" id="delay-type-pills">
+              <button type="button" class="filter-pill active" data-delay-filter="ALL">All Breaches</button>
+              <button type="button" class="filter-pill pill-alert" data-delay-filter="TASKS">Overdue Tasks</button>
+              <button type="button" class="filter-pill" data-delay-filter="PHASES">Delayed Phases</button>
+              <button type="button" class="filter-pill" data-delay-filter="MATERIALS">Late Materials</button>
+            </div>
+            <div class="filter-controls">
+              <div class="segmented-switch" id="delay-view-switcher" role="group" aria-label="Delay Radar layout mode">
+                <button type="button" class="segmented-btn active" data-delay-view-mode="cards">Visual Radar Cards</button>
+                <button type="button" class="segmented-btn" data-delay-view-mode="table">Audit Table</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="delays-visual-grid" class="delays-visual-grid"></div>
+
+          <div id="delays-table-container" style="display: none; flex-direction: column; gap: 20px;">
+            <div class="panel">
+              <div class="panel-header">
+                <div>
+                  <h2 class="panel-title">Overdue Tasks (Past Deadline &amp; Incomplete)</h2>
+                  <p class="panel-subtitle">Automatically detected whenever Reference Date exceeds Task Deadline</p>
+                </div>
+              </div>
+              <div class="table-wrap">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Task</th>
+                      <th>Project &amp; Phase</th>
+                      <th>Assigned Crew</th>
+                      <th>Deadline</th>
+                      <th>Overdue Severity</th>
+                      <th>Current State</th>
+                      <th>Resolution</th>
+                    </tr>
+                  </thead>
+                  <tbody id="delay-tasks-body"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-header">
+                <div>
+                  <h2 class="panel-title">Delayed Work Phases &amp; Late Material Deliveries</h2>
+                  <p class="panel-subtitle">Stages with slipped phase deadlines, delayed child tasks, or overdue supply batches</p>
+                </div>
+              </div>
+              <div class="table-wrap">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Type</th>
+                      <th>Item &amp; Project</th>
+                      <th>Target Deadline</th>
+                      <th>Progress / Stock</th>
+                      <th>Delay Reason</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="delay-phases-materials-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="view-workers" class="view-section">
+          <div id="workers-telemetry-strip" class="kpi-grid"></div>
+          <div class="filter-bar">
+            <div class="filter-pills" id="worker-trade-pills">
+              <button type="button" class="filter-pill active" data-worker-filter="ALL">All Statuses</button>
+              <button type="button" class="filter-pill" data-worker-filter="On Site">On Site</button>
+              <button type="button" class="filter-pill" data-worker-filter="Assigned">Assigned</button>
+              <button type="button" class="filter-pill" data-worker-filter="Standby">Standby</button>
+            </div>
+            <div class="filter-controls">
+              <select id="worker-specialty-filter" class="select-input" aria-label="Filter crews by trade specialty">
+                <option value="ALL">All Trade Specialties</option>
+              </select>
+              <button type="button" id="btn-create-worker-view" class="btn btn-primary btn-sm">+ Add Crew / Worker</button>
+            </div>
+          </div>
+          <div id="workers-grid" class="workers-grid"></div>
+        </section>
+
+        <section id="view-materials" class="view-section">
+          <div id="materials-summary-strip" class="kpi-grid"></div>
+
+          <div class="filter-bar">
+            <div class="filter-pills" id="material-filter-pills">
+              <button type="button" class="filter-pill active" data-mat-filter="ALL">All Materials</button>
+              <button type="button" class="filter-pill pill-alert" data-mat-filter="Delayed">Overdue Delivery</button>
+              <button type="button" class="filter-pill" data-mat-filter="Shortage">Pending Stock</button>
+              <button type="button" class="filter-pill" data-mat-filter="Fulfilled">Fulfilled</button>
+            </div>
+            <div class="filter-controls">
+              <div class="segmented-switch" id="material-view-switcher" role="group" aria-label="Materials layout mode">
+                <button type="button" class="segmented-btn active" data-mat-view-mode="cards">Inventory Cards</button>
+                <button type="button" class="segmented-btn" data-mat-view-mode="table">BOM Table</button>
+              </div>
+              <select id="material-project-filter" class="select-input" aria-label="Filter materials by project"></select>
+              <button type="button" id="btn-create-material-view" class="btn btn-primary btn-sm">+ Add Material Req</button>
+            </div>
+          </div>
+
+          <div id="materials-cards-grid" class="materials-cards-grid"></div>
+
+          <div id="materials-table-panel" class="panel" style="display: none;">
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Material &amp; Code</th>
+                    <th>Project &amp; Phase</th>
+                    <th>Delivery Progress</th>
+                    <th>Consumed</th>
+                    <th>Supplier &amp; Deadline</th>
+                    <th>Supply Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="materials-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div id="modal-project" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-project-title">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="modal-project-title" class="modal-title">Create Construction Project</h3>
+        <button type="button" class="modal-close" data-close-modal="modal-project" aria-label="Close">&times;</button>
+      </div>
+      <form id="form-project">
+        <div class="modal-body">
+          <input type="hidden" id="proj-edit-id" />
+          <div class="form-grid">
+            <div class="form-group full">
+              <label class="form-label" for="proj-name">Project Name *</label>
+              <input type="text" id="proj-name" class="text-input" required placeholder="e.g., Horizon Civic Hospital Wing" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="proj-client">Client / Owner *</label>
+              <input type="text" id="proj-client" class="text-input" required placeholder="e.g., City Infrastructure Board" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="proj-manager">Project Manager *</label>
+              <input type="text" id="proj-manager" class="text-input" required placeholder="e.g., Ananya Verma, PE" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="proj-location">Site Location *</label>
+              <input type="text" id="proj-location" class="text-input" required placeholder="e.g., North Sector, Plot 9" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="proj-budget">Estimated Budget (USD) *</label>
+              <input type="number" id="proj-budget" class="text-input" min="10000" step="10000" required value="4500000" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="proj-start">Start Date *</label>
+              <input type="date" id="proj-start" class="text-input" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="proj-end">Target Completion Date *</label>
+              <input type="date" id="proj-end" class="text-input" required />
+            </div>
+            <div class="form-group full">
+              <label class="form-label" for="proj-image">Architectural Site Cover Theme</label>
+              <select id="proj-image" class="select-input">
+                <option value="assets/images/project-skyline.png">Commercial High-Rise Steel &amp; Glass</option>
+                <option value="assets/images/project-metro.png">Civil Viaduct &amp; Heavy Infrastructure</option>
+                <option value="assets/images/project-residences.png">Modern Timber &amp; Concrete Residential</option>
+                <option value="assets/images/project-logistics.png">Industrial Precast &amp; Steel Truss</option>
+              </select>
+            </div>
+            <div class="form-group full" id="proj-template-group">
+              <label class="form-label" for="proj-phase-preset">Initial Sequential Work Phases</label>
+              <select id="proj-phase-preset" class="select-input">
+                <option value="standard">Standard 4-Stage (Foundation → Structure → MEP → Finishing)</option>
+                <option value="civil">Civil 3-Stage (Substructure → Superstructure → Commissioning)</option>
+                <option value="minimal">Single Kickoff Phase (Add custom stages later)</option>
+              </select>
+              <span class="form-hint">Phases can be edited, added, or adjusted anytime from the Project Inspector.</span>
+            </div>
+            <div class="form-group full">
+              <label class="form-label" for="proj-desc">Scope Summary</label>
+              <textarea id="proj-desc" class="textarea-input" rows="2" placeholder="Brief technical scope and structural notes..."></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close-modal="modal-project">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Project</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="modal-project-detail" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="detail-proj-title">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-header">
+        <div>
+          <h3 id="detail-proj-title" class="modal-title">Project Details</h3>
+        </div>
+        <button type="button" class="modal-close" data-close-modal="modal-project-detail" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body" id="project-detail-body"></div>
+      <div class="modal-footer" id="project-detail-footer"></div>
+    </div>
+  </div>
+
+  <div id="modal-phase" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-phase-title">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="modal-phase-title" class="modal-title">Add Work Phase</h3>
+        <button type="button" class="modal-close" data-close-modal="modal-phase" aria-label="Close">&times;</button>
+      </div>
+      <form id="form-phase">
+        <div class="modal-body">
+          <input type="hidden" id="phase-proj-id" />
+          <input type="hidden" id="phase-edit-id" />
+          <div class="form-grid">
+            <div class="form-group full">
+              <label class="form-label" for="phase-name">Phase Title *</label>
+              <input type="text" id="phase-name" class="text-input" required placeholder="e.g., 05. Landscape & External Utilities" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="phase-deadline">Phase Deadline *</label>
+              <input type="date" id="phase-deadline" class="text-input" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="phase-progress">Completion (%)</label>
+              <input type="number" id="phase-progress" class="text-input" min="0" max="100" value="0" required />
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close-modal="modal-phase">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Phase</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="modal-task" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-task-title">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="modal-task-title" class="modal-title">Assign Construction Task</h3>
+        <button type="button" class="modal-close" data-close-modal="modal-task" aria-label="Close">&times;</button>
+      </div>
+      <form id="form-task">
+        <div class="modal-body">
+          <input type="hidden" id="task-edit-id" />
+          <div class="form-grid">
+            <div class="form-group full">
+              <label class="form-label" for="task-title">Task Title *</label>
+              <input type="text" id="task-title" class="text-input" required placeholder="e.g., Pour Grade Beams Grid A–D" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="task-project">Project *</label>
+              <select id="task-project" class="select-input" required></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="task-phase">Work Phase *</label>
+              <select id="task-phase" class="select-input" required></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="task-worker">Assign Worker / Crew *</label>
+              <select id="task-worker" class="select-input" required></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="task-deadline">Deadline *</label>
+              <input type="date" id="task-deadline" class="text-input" required />
+              <span class="form-hint">Past deadlines on incomplete tasks auto-flag as Delayed.</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="task-priority">Priority *</label>
+              <select id="task-priority" class="select-input" required>
+                <option value="Critical">Critical</option>
+                <option value="High" selected>High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="task-status">Task Status *</label>
+              <select id="task-status" class="select-input" required>
+                <option value="Pending">Pending</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+              </select>
+            </div>
+            <div class="form-group full">
+              <label class="form-label" for="task-desc">Field Instructions</label>
+              <textarea id="task-desc" class="textarea-input" rows="2" placeholder="Inspection requirements, drawings, or safety notes..."></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close-modal="modal-task">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Task</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="modal-worker" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-worker-title">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="modal-worker-title" class="modal-title">Add Worker / Crew Record</h3>
+        <button type="button" class="modal-close" data-close-modal="modal-worker" aria-label="Close">&times;</button>
+      </div>
+      <form id="form-worker">
+        <div class="modal-body">
+          <input type="hidden" id="worker-edit-id" />
+          <div class="form-grid">
+            <div class="form-group full">
+              <label class="form-label" for="worker-team">Team / Crew Name *</label>
+              <input type="text" id="worker-team" class="text-input" required placeholder="e.g., Vertex Glazing & Curtain Wall Unit" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="worker-lead">Crew Lead / Foreman *</label>
+              <input type="text" id="worker-lead" class="text-input" required placeholder="e.g., Aditya Nair" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="worker-trade">Trade Specialty *</label>
+              <select id="worker-trade" class="select-input" required>
+                <option value="Concrete & Formwork">Concrete &amp; Formwork</option>
+                <option value="Structural Steel">Structural Steel</option>
+                <option value="MEP Systems">MEP Systems</option>
+                <option value="Post-Tension & Civil">Post-Tension &amp; Civil</option>
+                <option value="Heavy Rigging & Crane">Heavy Rigging &amp; Crane</option>
+                <option value="Interior Finishing">Interior Finishing</option>
+                <option value="Facade & Glazing">Facade &amp; Glazing</option>
+                <option value="Site QA & Safety">Site QA &amp; Safety</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="worker-headcount">Crew Headcount *</label>
+              <input type="number" id="worker-headcount" class="text-input" min="1" max="150" value="12" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="worker-status">Deployment Status *</label>
+              <select id="worker-status" class="select-input" required>
+                <option value="On Site">On Site</option>
+                <option value="Assigned">Assigned</option>
+                <option value="Standby">Standby</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="worker-project">Primary Project</label>
+              <select id="worker-project" class="select-input"></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="worker-phone">Contact Phone *</label>
+              <input type="text" id="worker-phone" class="text-input" required placeholder="+91 98XXX XXXXX" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="worker-cert">Safety Cert ID</label>
+              <input type="text" id="worker-cert" class="text-input" placeholder="e.g., OSHA-30-771" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="worker-rate">Daily Crew Rate (USD)</label>
+              <input type="number" id="worker-rate" class="text-input" min="100" step="50" value="1400" />
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close-modal="modal-worker">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Crew Record</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="modal-material" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-material-title">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="modal-material-title" class="modal-title">Add Material Requirement</h3>
+        <button type="button" class="modal-close" data-close-modal="modal-material" aria-label="Close">&times;</button>
+      </div>
+      <form id="form-material">
+        <div class="modal-body">
+          <input type="hidden" id="mat-edit-id" />
+          <div class="form-grid">
+            <div class="form-group full">
+              <label class="form-label" for="mat-name">Material Description *</label>
+              <input type="text" id="mat-name" class="text-input" required placeholder="e.g., Grade 60 Epoxy-Coated Rebar" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mat-project">Project *</label>
+              <select id="mat-project" class="select-input" required></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mat-phase">Work Phase *</label>
+              <select id="mat-phase" class="select-input" required></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mat-category">Category *</label>
+              <select id="mat-category" class="select-input" required>
+                <option value="Concrete & Cement">Concrete &amp; Cement</option>
+                <option value="Structural Steel">Structural Steel</option>
+                <option value="Precast & Timber">Precast &amp; Timber</option>
+                <option value="MEP & Conduit">MEP &amp; Conduit</option>
+                <option value="Finishing">Finishing</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mat-unit">Unit *</label>
+              <input type="text" id="mat-unit" class="text-input" required value="Tons" placeholder="Tons, m³, Units, Pallets" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mat-required">Required Qty *</label>
+              <input type="number" id="mat-required" class="text-input" min="1" required value="100" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mat-delivered">Delivered Qty *</label>
+              <input type="number" id="mat-delivered" class="text-input" min="0" required value="40" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mat-consumed">Consumed Qty</label>
+              <input type="number" id="mat-consumed" class="text-input" min="0" value="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mat-cost">Unit Cost (USD)</label>
+              <input type="number" id="mat-cost" class="text-input" min="1" value="500" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mat-supplier">Supplier *</label>
+              <input type="text" id="mat-supplier" class="text-input" required placeholder="e.g., UltraCrete Supply Co." />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mat-deadline">Delivery Deadline *</label>
+              <input type="date" id="mat-deadline" class="text-input" required />
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close-modal="modal-material">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Material</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
